@@ -10,6 +10,12 @@ export class User {
 
   @Prop()
   hashed_password: string;
+
+  @Prop()
+  email: string;
+
+  @Prop()
+  isVerified: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
