@@ -7,8 +7,6 @@ export interface Goal {
   goal_description: string;
   difficulty: GoalDifficulty;
   skill_points: number;
-  atrophy_points: number;
   current_state: GoalState;
   current_goal_context: GoalStateContext;
-  last_updated: Date;
 }

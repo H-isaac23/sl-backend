@@ -6,10 +6,14 @@ import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SkillModule } from './skill/skill.module';
 
+const ENV = process.env.NODE_ENV;
+
 @Module({
   imports: [
     UserModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+    }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

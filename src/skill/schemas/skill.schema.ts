@@ -20,6 +20,12 @@ export class Skill {
 
   @Prop()
   skill_level: number;
+
+  @Prop()
+  atrophy_points: number;
+
+  @Prop()
+  last_updated: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Skill);

@@ -10,10 +10,18 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async create(createUserDto: CreateUserDto) {
-    // TODO: Check if user exists
-    const { username, password } = createUserDto;
-    const doesPlayerExist = await this.userModel.findOne({ username });
+  async createUser(createUserDto: CreateUserDto) {
+    // Check if user exists
+    const { username, email, password } = createUserDto;
+    if (password.length < 8) {
+      throw new HttpException(
+        'Password of length less than 8 is not allowed',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const doesPlayerExist = await this.userModel.findOne({
+      $or: [{ username }, { email }],
+    });
     if (doesPlayerExist) {
       throw new HttpException(
         `User with username ${username} already exists.`,
@@ -24,22 +32,25 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const accountModel = new this.userModel({
       username,
+      email,
       hashed_password: hashedPassword,
     });
 
     const savedAccount = await accountModel.save();
-    return {
-      message: `User ${username} has been saved.`,
-      account: savedAccount,
-    };
+    return savedAccount;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAllUsers() {
+    const accounts = await this.userModel.find({});
+    return accounts;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOneUser(username: string) {
+    const account = await this.userModel.findOne({ username });
+    if (!account) {
+      return `User with username ${username} does not exist.`;
+    }
+    return account;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -49,5 +60,17 @@ export class UserService {
 
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+
+  // IMPORTANT: THIS METHOD IS USED FOR TESTING ONLY
+  async removeAllUser() {
+    if (process.env.NODE_ENV === 'test') {
+      await this.userModel.deleteMany({});
+      return `This action removes all users.`;
+    } else {
+      throw new Error(
+        'removeAllUser method is only allowed in test environment',
+      );
+    }
   }
 }
