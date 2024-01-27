@@ -73,13 +73,15 @@ describe('SkillCategoryService', () => {
       const skill_category_name = 'Programming';
       const doesNotExistMessage = `Skill Category ${skill_category_name} from user with ObjectId ${user} does not exist`;
 
-      jest.spyOn(model, 'findOne').mockResolvedValueOnce(doesNotExistMessage);
+      jest.spyOn(model, 'findOne').mockResolvedValueOnce(undefined);
 
-      const response = await service.findOneSkillCategory(
-        user,
-        skill_category_name,
-      );
-      expect(response).toBe(doesNotExistMessage);
+      try {
+        await service.findOneSkillCategory(user, skill_category_name);
+        fail('Service should return undefined');
+      } catch (error) {
+        expect(error).toBeInstanceOf(Error);
+        expect(error.message).toBe(doesNotExistMessage);
+      }
     });
   });
 });

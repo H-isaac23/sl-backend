@@ -25,6 +25,11 @@ export class SkillCategoryService {
     const skillCategory = await this.skillCategoryModel.findOne({
       $and: [{ user }, { skill_category_name }],
     });
+    if (!skillCategory) {
+      throw new Error(
+        `Skill Category ${skill_category_name} from user with ObjectId ${user} does not exist`,
+      );
+    }
     return skillCategory;
   }
 
