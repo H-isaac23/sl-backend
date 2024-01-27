@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SkillCategoryService } from './skill-category.service';
 import { CreateSkillCategoryDto } from './dto/create-skill-category.dto';
 import { UpdateSkillCategoryDto } from './dto/update-skill-category.dto';
@@ -9,26 +17,34 @@ export class SkillCategoryController {
 
   @Post()
   create(@Body() createSkillCategoryDto: CreateSkillCategoryDto) {
-    return this.skillCategoryService.create(createSkillCategoryDto);
+    return this.skillCategoryService.createSkillCategory(
+      createSkillCategoryDto,
+    );
   }
 
   @Get()
   findAll() {
-    return this.skillCategoryService.findAll();
+    return this.skillCategoryService.findAllSkillCategories();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.skillCategoryService.findOne(+id);
+    return this.skillCategoryService.findOneSkillCategory(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSkillCategoryDto: UpdateSkillCategoryDto) {
-    return this.skillCategoryService.update(+id, updateSkillCategoryDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateSkillCategoryDto: UpdateSkillCategoryDto,
+  ) {
+    return this.skillCategoryService.updateSkillCategory(
+      +id,
+      updateSkillCategoryDto,
+    );
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.skillCategoryService.remove(+id);
+    return this.skillCategoryService.removeSkillCategory(+id);
   }
 }

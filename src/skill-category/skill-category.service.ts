@@ -4,23 +4,28 @@ import { UpdateSkillCategoryDto } from './dto/update-skill-category.dto';
 
 @Injectable()
 export class SkillCategoryService {
-  create(createSkillCategoryDto: CreateSkillCategoryDto) {
+  createSkillCategory(createSkillCategoryDto: CreateSkillCategoryDto) {
+    console.log(createSkillCategoryDto);
     return 'This action adds a new skillCategory';
   }
 
-  findAll() {
+  findAllSkillCategories() {
     return `This action returns all skillCategory`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} skillCategory`;
+  findOneSkillCategory(user: string, skill_category_name: string) {
+    return `This action returns a #${user + skill_category_name} skillCategory`;
   }
 
-  update(id: number, updateSkillCategoryDto: UpdateSkillCategoryDto) {
+  updateSkillCategory(
+    id: number,
+    updateSkillCategoryDto: UpdateSkillCategoryDto,
+  ) {
+    console.log(updateSkillCategoryDto);
     return `This action updates a #${id} skillCategory`;
   }
 
-  remove(id: number) {
+  removeSkillCategory(id: number) {
     return `This action removes a #${id} skillCategory`;
   }
 }
