@@ -5,6 +5,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 @Injectable()
 export class SkillService {
   create(createSkillDto: CreateSkillDto) {
+    console.log(createSkillDto);
     return 'This action adds a new skill';
   }
 
@@ -17,6 +18,7 @@ export class SkillService {
   }
 
   update(id: number, updateSkillDto: UpdateSkillDto) {
+    console.log(updateSkillDto);
     return `This action updates a #${id} skill`;
   }
 

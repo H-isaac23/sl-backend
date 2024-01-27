@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SkillModule } from './skill/skill.module';
+import { SkillCategoryModule } from './skill-category/skill-category.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -22,6 +23,7 @@ const ENV = process.env.NODE_ENV;
       inject: [ConfigService],
     }),
     SkillModule,
+    SkillCategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

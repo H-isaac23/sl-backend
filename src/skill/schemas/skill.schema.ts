@@ -1,15 +1,17 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Goal } from '../interfaces/goal.interface';
+import { SkillCategory } from 'src/skill-category/schemas/skill-category.schema';
+import * as mongoose from 'mongoose';
 
 export type UserDocument = HydratedDocument<Skill>;
 
 @Schema()
 export class Skill {
-  @Prop()
+  @Prop({ unique: true, required: true })
   skill_name: string;
 
-  @Prop()
+  @Prop({ unique: true, required: true })
   skill_description: string | undefined;
 
   @Prop()
@@ -26,6 +28,9 @@ export class Skill {
 
   @Prop()
   last_updated: Date;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'SkillCategory' })
+  skill_category: SkillCategory;
 }
 
 export const UserSchema = SchemaFactory.createForClass(Skill);
