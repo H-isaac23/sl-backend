@@ -27,7 +27,7 @@ describe('SkillCategoryService', () => {
 
     service = module.get<SkillCategoryService>(SkillCategoryService);
     model = module.get<Model<SkillCategory>>(getModelToken(SkillCategory.name));
-    console.log(model);
+    // console.log(model);
   });
 
   it('should be defined', () => {
@@ -50,7 +50,7 @@ describe('SkillCategoryService', () => {
   });
 
   describe('findOneSkillCategory', () => {
-    it('should return a single skill category', async () => {
+    it('should return a valid single skill category', async () => {
       const user = '65b366097291996d76493eed';
       const skill_category_name = 'Programming';
 
@@ -60,12 +60,26 @@ describe('SkillCategoryService', () => {
         user: '65b366097291996d76493eed',
       };
 
-      jest.spyOn(model, 'findOne').mockResolvedValue(testResolvedData);
+      jest.spyOn(model, 'findOne').mockResolvedValueOnce(testResolvedData);
       const response = await service.findOneSkillCategory(
         user,
         skill_category_name,
       );
       expect(response).toBe(testResolvedData);
+    });
+
+    it('should not return a skill category that does not exist', async () => {
+      const user = '1';
+      const skill_category_name = 'Programming';
+      const doesNotExistMessage = `Skill Category ${skill_category_name} from user with ObjectId ${user} does not exist`;
+
+      jest.spyOn(model, 'findOne').mockResolvedValueOnce(doesNotExistMessage);
+
+      const response = await service.findOneSkillCategory(
+        user,
+        skill_category_name,
+      );
+      expect(response).toBe(doesNotExistMessage);
     });
   });
 });

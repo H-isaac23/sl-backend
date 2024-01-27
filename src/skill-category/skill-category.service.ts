@@ -1,28 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSkillCategoryDto } from './dto/create-skill-category.dto';
 import { UpdateSkillCategoryDto } from './dto/update-skill-category.dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { SkillCategory } from './schemas/skill-category.schema';
 
 @Injectable()
 export class SkillCategoryService {
+  constructor(
+    @InjectModel(SkillCategory.name)
+    private skillCategoryModel: Model<SkillCategory>,
+  ) {}
+
   createSkillCategory(createSkillCategoryDto: CreateSkillCategoryDto) {
-    console.log(createSkillCategoryDto);
     return 'This action adds a new skillCategory';
   }
 
-  findAllSkillCategories() {
-    return `This action returns all skillCategory`;
+  async findAllSkillCategories() {
+    const skillCategories = await this.skillCategoryModel.find({});
+    return skillCategories;
   }
 
-  findOneSkillCategory(user: string, skill_category_name: string) {
-    return `This action returns a #${user + skill_category_name} skillCategory`;
+  async findOneSkillCategory(user: string, skill_category_name: string) {
+    const skillCategory = await this.skillCategoryModel.findOne({
+      $and: [{ user }, { skill_category_name }],
+    });
+    return skillCategory;
   }
 
-  updateSkillCategory(
-    id: number,
-    updateSkillCategoryDto: UpdateSkillCategoryDto,
-  ) {
-    console.log(updateSkillCategoryDto);
-    return `This action updates a #${id} skillCategory`;
+  updateSkillCategory(updateSkillCategoryDto: UpdateSkillCategoryDto) {
+    return `This action updates a #${updateSkillCategoryDto.skillCategoryName} skillCategory`;
   }
 
   removeSkillCategory(id: number) {

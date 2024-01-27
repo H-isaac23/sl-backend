@@ -18,3 +18,7 @@ export class SkillCategory {
 }
 
 export const SkillCategorySchema = SchemaFactory.createForClass(SkillCategory);
+SkillCategorySchema.index(
+  { user: 1, skill_category_name: 1 },
+  { unique: true },
+);

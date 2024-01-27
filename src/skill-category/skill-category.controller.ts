@@ -29,7 +29,7 @@ export class SkillCategoryController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.skillCategoryService.findOneSkillCategory(+id);
+    return this.skillCategoryService.findOneSkillCategory(id, id);
   }
 
   @Patch(':id')
@@ -38,7 +38,6 @@ export class SkillCategoryController {
     @Body() updateSkillCategoryDto: UpdateSkillCategoryDto,
   ) {
     return this.skillCategoryService.updateSkillCategory(
-      +id,
       updateSkillCategoryDto,
     );
   }
