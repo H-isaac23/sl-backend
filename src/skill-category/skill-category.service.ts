@@ -12,8 +12,10 @@ export class SkillCategoryService {
     private skillCategoryModel: Model<SkillCategory>,
   ) {}
 
-  createSkillCategory(createSkillCategoryDto: CreateSkillCategoryDto) {
-    return 'This action adds a new skillCategory';
+  async createSkillCategory(createSkillCategoryDto: CreateSkillCategoryDto) {
+    const scModel = new this.skillCategoryModel(createSkillCategoryDto);
+    const newScModel = await scModel.save();
+    return newScModel;
   }
 
   async findAllSkillCategories() {
